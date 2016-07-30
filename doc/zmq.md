@@ -66,7 +66,7 @@ address. The same address can be used in more than one notification.
 
 For instance:
 
-    $ stratisd -zmqpubhashtx=tcp://127.0.0.1:24456 \
+    $ stratisd -zmqpubhashtx=tcp://127.0.0.1:26174 \
                -zmqpubrawtx=ipc:///tmp/stratisd.tx.raw
 
 Each PUB notification has a topic and body, where the header

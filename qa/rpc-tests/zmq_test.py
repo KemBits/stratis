@@ -21,7 +21,7 @@ class ZMQTest (StratisTestFramework):
         super().__init__()
         self.num_nodes = 4
 
-    port = 24456
+    port = 26174
 
     def setup_nodes(self):
         self.zmqContext = zmq.Context()

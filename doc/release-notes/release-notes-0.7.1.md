@@ -77,7 +77,7 @@ Bug fixes
 
 * Clicking on a stratis: URI on Windows should now launch Stratis-Qt properly.
 
-* When running -testnet, use RPC port 14456 by default.
+* When running -testnet, use RPC port 16174 by default.
 
 * Better detection and handling of corrupt wallet.dat and blkindex.dat files.
   Previous versions would crash with a DB_RUNRECOVERY exception, this

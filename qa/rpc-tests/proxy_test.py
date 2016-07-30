@@ -114,24 +114,24 @@ class ProxyTest(StratisTestFramework):
 
         if test_onion:
             # Test: outgoing onion connection through node
-            node.addnode("stratisostk4e4re.onion:4457", "onetry")
+            node.addnode("stratisostk4e4re.onion:6175", "onetry")
             cmd = proxies[2].queue.get()
             assert(isinstance(cmd, Socks5Command))
             assert_equal(cmd.atyp, AddressType.DOMAINNAME)
             assert_equal(cmd.addr, b"stratisostk4e4re.onion")
-            assert_equal(cmd.port, 4457)
+            assert_equal(cmd.port, 6175)
             if not auth:
                 assert_equal(cmd.username, None)
                 assert_equal(cmd.password, None)
             rv.append(cmd)
 
         # Test: outgoing DNS name connection through node
-        node.addnode("node.noumenon:4457", "onetry")
+        node.addnode("node.noumenon:6175", "onetry")
         cmd = proxies[3].queue.get()
         assert(isinstance(cmd, Socks5Command))
         assert_equal(cmd.atyp, AddressType.DOMAINNAME)
         assert_equal(cmd.addr, b"node.noumenon")
-        assert_equal(cmd.port, 4457)
+        assert_equal(cmd.port, 6175)
         if not auth:
             assert_equal(cmd.username, None)
             assert_equal(cmd.password, None)

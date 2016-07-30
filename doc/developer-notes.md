@@ -162,7 +162,7 @@ Threads
 
 - ThreadMapPort : Universal plug-and-play startup/shutdown
 
-- ThreadSocketHandler : Sends/Receives data from peers on port 4457.
+- ThreadSocketHandler : Sends/Receives data from peers on port 6175.
 
 - ThreadOpenAddedConnections : Opens network connections to added nodes.
 
@@ -174,7 +174,7 @@ Threads
 
 - ThreadFlushWalletDB : Close the wallet.dat file if it hasn't been used in 500ms.
 
-- ThreadRPCServer : Remote procedure call handler, listens on port 4456 for connections and services them.
+- ThreadRPCServer : Remote procedure call handler, listens on port 6174 for connections and services them.
 
 - StratisMiner : Generates stratiss (if wallet is enabled).
 

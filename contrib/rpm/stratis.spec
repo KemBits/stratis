@@ -336,10 +336,10 @@ if [ `%{_sbindir}/sestatus |grep -c "disabled"` -eq 0 ]; then
 for selinuxvariant in %{selinux_variants}; do
 	%{_sbindir}/semodule -s ${selinuxvariant} -i %{_datadir}/selinux/${selinuxvariant}/stratis.pp &> /dev/null || :
 done
-%{_sbindir}/semanage port -a -t stratis_port_t -p tcp 4456
-%{_sbindir}/semanage port -a -t stratis_port_t -p tcp 4457
-%{_sbindir}/semanage port -a -t stratis_port_t -p tcp 14456
-%{_sbindir}/semanage port -a -t stratis_port_t -p tcp 14457
+%{_sbindir}/semanage port -a -t stratis_port_t -p tcp 6174
+%{_sbindir}/semanage port -a -t stratis_port_t -p tcp 6175
+%{_sbindir}/semanage port -a -t stratis_port_t -p tcp 16174
+%{_sbindir}/semanage port -a -t stratis_port_t -p tcp 16175
 %{_sbindir}/fixfiles -R stratis-server restore &> /dev/null || :
 %{_sbindir}/restorecon -R %{_localstatedir}/lib/stratis || :
 fi
@@ -355,10 +355,10 @@ fi
 # SELinux
 if [ $1 -eq 0 ]; then
 	if [ `%{_sbindir}/sestatus |grep -c "disabled"` -eq 0 ]; then
-	%{_sbindir}/semanage port -d -p tcp 4456
-	%{_sbindir}/semanage port -d -p tcp 4457
-	%{_sbindir}/semanage port -d -p tcp 14456
-	%{_sbindir}/semanage port -d -p tcp 14457
+	%{_sbindir}/semanage port -d -p tcp 6174
+	%{_sbindir}/semanage port -d -p tcp 6175
+	%{_sbindir}/semanage port -d -p tcp 16174
+	%{_sbindir}/semanage port -d -p tcp 16175
 	for selinuxvariant in %{selinux_variants}; do
 		%{_sbindir}/semodule -s ${selinuxvariant} -r stratis &> /dev/null || :
 	done
