@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Stratis Core consensus library
+Description: Library for the Stratis consensus protocol.
+Version: 0.12.99
+Libs: -L${libdir} -lstratisconsensus
+Cflags: -I${includedir}
+Requires.private: libcrypto
