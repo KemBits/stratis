@@ -151,8 +151,8 @@ public:
         consensus.BIP34Height = 0;
         consensus.BIP34Hash = uint256S("0x00000f4d333151cd39db164e445e8f0f6b55a27ee11fea4e3fd98715c20");
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 60; 
-        consensus.nPowTargetSpacing = 10 * 60;
+        consensus.nPowTargetTimespan = 10 * 60; 
+        consensus.nPowTargetSpacing = 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
