@@ -1,10 +1,10 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2015 The Bitcoin Core developers
+// Copyright (c) 2009-2015 The Stratis Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_CONSENSUS_VALIDATION_H
-#define BITCOIN_CONSENSUS_VALIDATION_H
+#ifndef STRATIS_CONSENSUS_VALIDATION_H
+#define STRATIS_CONSENSUS_VALIDATION_H
 
 #include <string>
 
@@ -77,12 +77,9 @@ public:
     bool CorruptionPossible() const {
         return corruptionPossible;
     }
-    void SetCorruptionPossible() {
-        corruptionPossible = true;
-    }
     unsigned int GetRejectCode() const { return chRejectCode; }
     std::string GetRejectReason() const { return strRejectReason; }
     std::string GetDebugMessage() const { return strDebugMessage; }
 };
 
-#endif // BITCOIN_CONSENSUS_VALIDATION_H
+#endif // STRATIS_CONSENSUS_VALIDATION_H

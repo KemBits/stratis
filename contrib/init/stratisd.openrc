@@ -1,0 +1,92 @@
+#!/sbin/runscript
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/stratis/.stratis" ]; then
+	STRATISD_DEFAULT_DATADIR="/var/lib/stratis/.stratis"
+else
+	STRATISD_DEFAULT_DATADIR="/var/lib/stratisd"
+fi
+
+STRATISD_CONFIGFILE=${STRATISD_CONFIGFILE:-/etc/stratis/stratis.conf}
+STRATISD_PIDDIR=${STRATISD_PIDDIR:-/var/run/stratisd}
+STRATISD_PIDFILE=${STRATISD_PIDFILE:-${STRATISD_PIDDIR}/stratisd.pid}
+STRATISD_DATADIR=${STRATISD_DATADIR:-${STRATISD_DEFAULT_DATADIR}}
+STRATISD_USER=${STRATISD_USER:-${STRATIS_USER:-stratis}}
+STRATISD_GROUP=${STRATISD_GROUP:-stratis}
+STRATISD_BIN=${STRATISD_BIN:-/usr/bin/stratisd}
+STRATISD_NICE=${STRATISD_NICE:-${NICELEVEL:-0}}
+STRATISD_OPTS="${STRATISD_OPTS:-${STRATIS_OPTS}}"
+
+name="Stratis Core Daemon"
+description="Stratis cryptocurrency P2P network daemon"
+
+command="/usr/bin/stratisd"
+command_args="-pid=\"${STRATISD_PIDFILE}\" \
+		-conf=\"${STRATISD_CONFIGFILE}\" \
+		-datadir=\"${STRATISD_DATADIR}\" \
+		-daemon \
+		${STRATISD_OPTS}"
+
+required_files="${STRATISD_CONFIGFILE}"
+start_stop_daemon_args="-u ${STRATISD_USER} \
+			-N ${STRATISD_NICE} -w 2000"
+pidfile="${STRATISD_PIDFILE}"
+
+# The retry schedule to use when stopping the daemon. Could be either
+# a timeout in seconds or multiple signal/timeout pairs (like
+# "SIGKILL/180 SIGTERM/300")
+retry="${STRATISD_SIGTERM_TIMEOUT}"
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${STRATISD_USER}:${STRATISD_GROUP}" \
+	"${STRATISD_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${STRATISD_USER}:${STRATISD_GROUP}" \
+	"${STRATISD_PIDDIR}"
+
+	checkpath -f \
+	-o ${STRATISD_USER}:${STRATISD_GROUP} \
+	-m 0660 \
+	${STRATISD_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${STRATISD_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run stratisd."
+		eerror "The setting must appear in ${STRATISD_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following"
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is also recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"Stratis Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

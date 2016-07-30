@@ -1,58 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<!-- Designer: Jonas Schnelli
-  	 License: MIT
--->
-
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1"
-	 id="svg2" sodipodi:docname="bitcoin-logo-noshadow.svg" inkscape:version="0.48.2 r9819" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1024px" height="1024px"
-	 viewBox="-34 -34 580 580" enable-background="new 0 0 1024 1024" xml:space="preserve">
-
-	<!-- nice shadow with alpha 0.35 -->
-	<filter id="dropShadowAlpha">
-		<feColorMatrix result="matrixOut" in="SourceAlpha" type="saturate"
-	      values="0.1" />
-		<feGaussianBlur in="matrixOut" result="blur-out" stdDeviation="6" />
-		<feColorMatrix in="blur-out" result="color-out" type="matrix"
-		      values="0 0 0 0   0
-		              0 0 0 0   0 
-		              0 0 0 0   0 
-		              0 0 0 0.35 0"/>
-		<feBlend in="SourceGraphic" in2="color-out" mode="normal" />
-	</filter>
-	
-	<g>
-		<!-- white background circle for making B not transparent but still keep inner shadows -->
-		<circle cx="255" cy="255" r="200" stroke-width="2" fill="white"/>
-	
-		<radialGradient id="innerBtop" cx="277.4905" cy="196.4412" r="34.3969" gradientUnits="userSpaceOnUse">
-			<stop offset="0" style="stop-color:#F9AA4B"/>
-			<stop offset="1" style="stop-color:#F7931A"/>
-		</radialGradient>
-		<path fill="url(#innerBtop)" filter="url(#dropShadowAlpha)" d="M254.647,174.6l-13.983,56.08c15.855,3.951,64.735,20.071,72.656-11.656
-			C321.568,185.928,270.503,178.552,254.647,174.6z"/>
-		
-		<radialGradient id="innerBbottom" cx="261.9153" cy="284.5671" r="39.8381" gradientUnits="userSpaceOnUse">
-			<stop offset="0" style="stop-color:#F9AA4B"/>
-			<stop offset="1" style="stop-color:#F7931A"/>
-		</radialGradient>
-		<path fill="url(#innerBbottom)" filter="url(#dropShadowAlpha)" d="M233.608,258.984l-15.425,61.832c19.04,4.729,77.769,23.584,86.448-11.296
-			C313.703,273.144,252.647,263.736,233.608,258.984z"/>
-				
-		<radialGradient id="coinShape" cx="256.0276" cy="256.0027" r="255.9878" gradientUnits="userSpaceOnUse">
-			<stop offset="0" style="stop-color:#F9AA4B"/>
-			<stop offset="1" style="stop-color:#F7931A"/>
-		</radialGradient>
-		<path fill="url(#coinShape)" filter="url(#dropShadowAlpha)" d="M317.871,7.656c-137.12-34.192-276.024,49.28-310.2,186.44
-			c-34.208,137.136,49.256,276.048,186.36,310.24c137.16,34.199,276.063-49.265,310.256-186.408
-			C538.479,180.776,455.023,41.848,317.871,7.656z M368.807,219.528c-3.688,24.936-17.512,37.008-35.864,41.24
-			c25.2,13.12,38.024,33.239,25.809,68.12c-15.16,43.319-51.176,46.976-99.072,37.912l-11.624,46.584l-28.088-7l11.472-45.96
-			c-7.279-1.809-14.72-3.729-22.384-5.809l-11.512,46.177l-28.056-7l11.624-46.673c-6.561-1.68-13.225-3.464-20.024-5.168
-			l-36.552-9.111l13.943-32.152c0,0,20.696,5.504,20.416,5.096c7.952,1.969,11.48-3.216,12.872-6.672l18.368-73.64l0.048-0.2
-			l13.104-52.568c0.344-5.968-1.712-13.496-13.088-16.336c0.439-0.296-20.4-5.072-20.4-5.072l7.472-30l38.736,9.673l-0.032,0.144
-			c5.824,1.448,11.824,2.824,17.937,4.216L245.423,89.2l28.072,7l-11.28,45.224c7.536,1.721,15.12,3.456,22.504,5.297l11.2-44.929
-			l28.088,7l-11.504,46.145C347.967,167.152,373.904,185.464,368.807,219.528z"/>
-	</g>
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+ "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="598.000000pt" height="541.000000pt" viewBox="0 0 598.000000 541.000000"
+ preserveAspectRatio="xMidYMid meet">
+<metadata>
+Created by potrace 1.13, written by Peter Selinger 2001-2015
+</metadata>
+<g transform="translate(0.000000,541.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="none">
+<path d="M1499 4559 c-800 -468 -1464 -862 -1476 -875 -28 -30 -30 -83 -5
+-112 9 -11 672 -411 1472 -888 1154 -688 1462 -867 1490 -868 29 -1 277 142
+1500 867 806 478 1473 878 1483 889 24 29 22 82 -5 112 -37 39 -2944 1726
+-2977 1726 -18 0 -505 -279 -1482 -851z m2790 -178 l1292 -754 -38 -22 c-21
+-12 -606 -351 -1300 -753 l-1262 -731 -1293 749 c-711 412 -1294 753 -1295
+757 -3 10 2578 1514 2593 1510 6 -1 592 -341 1303 -756z"/>
+<path d="M5445 2965 c-24 -23 -27 -32 -22 -71 2 -25 13 -54 22 -64 10 -11 67
+-47 127 -81 60 -34 106 -65 101 -69 -4 -4 -611 -350 -1347 -769 -1310 -746
+-1340 -763 -1365 -748 -14 8 -620 353 -1346 767 -726 414 -1321 753 -1322 754
+-1 1 45 28 104 60 86 48 108 65 119 92 26 62 -20 128 -88 126 -32 -1 -341
+-181 -375 -219 -30 -32 -30 -84 0 -117 30 -33 2884 -1676 2923 -1683 28 -5
+204 94 1475 826 794 458 1455 843 1469 856 16 17 24 36 24 60 0 49 -19 66
+-224 191 -199 121 -233 132 -275 89z"/>
+<path d="M250 1929 c-102 -60 -193 -119 -202 -131 -25 -29 -23 -82 5 -112 12
+-14 668 -398 1457 -853 1247 -720 1440 -828 1475 -828 35 0 228 108 1489 835
+1554 896 1483 851 1469 922 -7 38 -27 53 -227 172 -127 75 -188 106 -211 106
+-43 0 -75 -35 -75 -83 0 -65 16 -83 136 -149 63 -34 110 -65 106 -69 -9 -9
+-2658 -1518 -2676 -1525 -8 -3 -620 340 -1360 762 l-1346 767 118 65 c64 35
+125 73 135 84 26 31 22 93 -8 123 -46 47 -79 37 -285 -86z"/>
+</g>
 </svg>

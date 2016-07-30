@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2016 The Bitcoin Core developers
+# Copyright (c) 2014-2016 The Stratis Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -17,7 +17,7 @@ than:
       interface.
 
 For a description of arguments recognized by test scripts, see
-`qa/pull-tester/test_framework/test_framework.py:BitcoinTestFramework.main`.
+`qa/pull-tester/test_framework/test_framework.py:StratisTestFramework.main`.
 
 """
 
@@ -43,8 +43,8 @@ RPC_TESTS_DIR = SRCDIR + '/qa/rpc-tests/'
 #If imported values are not defined then set to zero (or disabled)
 if 'ENABLE_WALLET' not in vars():
     ENABLE_WALLET=0
-if 'ENABLE_BITCOIND' not in vars():
-    ENABLE_BITCOIND=0
+if 'ENABLE_STRATISD' not in vars():
+    ENABLE_STRATISD=0
 if 'ENABLE_UTILS' not in vars():
     ENABLE_UTILS=0
 if 'ENABLE_ZMQ' not in vars():
@@ -75,19 +75,19 @@ for arg in sys.argv[1:]:
         opts.add(arg)
 
 #Set env vars
-if "BITCOIND" not in os.environ:
-    os.environ["BITCOIND"] = BUILDDIR + '/src/bitcoind' + EXEEXT
-if "BITCOINCLI" not in os.environ:
-    os.environ["BITCOINCLI"] = BUILDDIR + '/src/bitcoin-cli' + EXEEXT
+if "STRATISD" not in os.environ:
+    os.environ["STRATISD"] = BUILDDIR + '/src/stratisd' + EXEEXT
+if "STRATISCLI" not in os.environ:
+    os.environ["STRATISCLI"] = BUILDDIR + '/src/stratis-cli' + EXEEXT
 
 if EXEEXT == ".exe" and "-win" not in opts:
-    # https://github.com/bitcoin/bitcoin/commit/d52802551752140cf41f0d9a225a43e84404d3e9
-    # https://github.com/bitcoin/bitcoin/pull/5677#issuecomment-136646964
+    # https://github.com/stratis/stratis/commit/d52802551752140cf41f0d9a225a43e84404d3e9
+    # https://github.com/stratis/stratis/pull/5677#issuecomment-136646964
     print("Win tests currently disabled by default.  Use -win option to enable")
     sys.exit(0)
 
-if not (ENABLE_WALLET == 1 and ENABLE_UTILS == 1 and ENABLE_BITCOIND == 1):
-    print("No rpc tests to run. Wallet, utils, and bitcoind must all be enabled")
+if not (ENABLE_WALLET == 1 and ENABLE_UTILS == 1 and ENABLE_STRATISD == 1):
+    print("No rpc tests to run. Wallet, utils, and stratisd must all be enabled")
     sys.exit(0)
 
 # python3-zmq may not be installed. Handle this gracefully and with some helpful info
@@ -101,13 +101,9 @@ if ENABLE_ZMQ:
 
 #Tests
 testScripts = [
-    # longest test should go first, to favor running tests in parallel
-    'p2p-fullblocktest.py',
     'walletbackup.py',
     'bip68-112-113-p2p.py',
     'wallet.py',
-    'wallet-hd.py',
-    'wallet-dump.py',
     'listtransactions.py',
     'receivedby.py',
     'mempool_resurrect_test.py',
@@ -129,6 +125,7 @@ testScripts = [
     'nodehandling.py',
     'reindex.py',
     'decodescript.py',
+    'p2p-fullblocktest.py',
     'blockchain.py',
     'disablewallet.py',
     'sendheaders.py',
@@ -138,8 +135,6 @@ testScripts = [
     'invalidtxrequest.py',
     'abandonconflict.py',
     'p2p-versionbits-warning.py',
-    'p2p-segwit.py',
-    'segwit.py',
     'importprunedfunds.py',
     'signmessages.py',
 ]
@@ -196,7 +191,7 @@ def runtests():
     if coverage:
         flags.append(coverage.flag)
 
-    if len(test_list) > 1 and run_parallel > 1:
+    if len(test_list) > 1:
         # Populate cache
         subprocess.check_output([RPC_TESTS_DIR + 'create_cache.py'] + flags)
 
@@ -256,7 +251,7 @@ class RPCTestHandler:
                                                stdout=subprocess.PIPE,
                                                stderr=subprocess.PIPE)))
         if not self.jobs:
-            raise IndexError('pop from empty list')
+            raise IndexError('%s from empty list' % __name__)
         while True:
             # Return first proc that finishes
             time.sleep(.5)
@@ -278,7 +273,7 @@ class RPCCoverage(object):
     Coverage calculation works by having each test script subprocess write
     coverage files into a particular directory. These files contain the RPC
     commands invoked during testing, as well as a complete listing of RPC
-    commands per `bitcoin-cli help` (`rpc_interface.txt`).
+    commands per `stratis-cli help` (`rpc_interface.txt`).
 
     After all tests complete, the commands run are combined and diff'd against
     the complete list to calculate uncovered RPC commands.

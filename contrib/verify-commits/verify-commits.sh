@@ -1,28 +1,33 @@
 #!/bin/sh
-# Not technically POSIX-compliant due to use of "local", but almost every
-# shell anyone uses today supports it, so its probably fine
 
 DIR=$(dirname "$0")
-[ "/${DIR#/}" != "$DIR" ] && DIR=$(dirname "$(pwd)/$0")
+
+echo "Please verify all commits in the following list are not evil:"
+git log "$DIR"
 
 VERIFIED_ROOT=$(cat "${DIR}/trusted-git-root")
-REVSIG_ALLOWED=$(cat "${DIR}/allow-revsig-commits")
+
+IS_REVSIG_ALLOWED () {
+	while read LINE; do
+		[ "$LINE" = "$1" ] && return 0
+	done < "${DIR}/allow-revsig-commits"
+	return 1
+}
 
 HAVE_FAILED=false
 IS_SIGNED () {
 	if [ $1 = $VERIFIED_ROOT ]; then
 		return 0;
 	fi
-	if [ "${REVSIG_ALLOWED#*$1}" != "$REVSIG_ALLOWED" ]; then
-		export BITCOIN_VERIFY_COMMITS_ALLOW_REVSIG=1
+	if IS_REVSIG_ALLOWED "$1"; then
+		export STRATIS_VERIFY_COMMITS_ALLOW_REVSIG=1
 	else
-		export BITCOIN_VERIFY_COMMITS_ALLOW_REVSIG=0
+		export STRATIS_VERIFY_COMMITS_ALLOW_REVSIG=0
 	fi
 	if ! git -c "gpg.program=${DIR}/gpg.sh" verify-commit $1 > /dev/null 2>&1; then
 		return 1;
 	fi
-	local PARENTS
-	PARENTS=$(git show -s --format=format:%P $1)
+	local PARENTS=$(git show -s --format=format:%P $1)
 	for PARENT in $PARENTS; do
 		if IS_SIGNED $PARENT > /dev/null; then
 			return 0;

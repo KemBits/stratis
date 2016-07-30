@@ -1,20 +1,13 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2016 The Bitcoin Core developers
+# Copyright (c) 2014-2016 The Stratis Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import StratisTestFramework
 from test_framework.util import *
 
-
-def get_unspent(listunspent, amount):
-    for utx in listunspent:
-        if utx['amount'] == amount:
-            return utx
-    raise AssertionError('Could not find unspent with amount={}'.format(amount))
-
-
-class RawTransactionsTest(BitcoinTestFramework):
+# Create one-input, one-output, no-fee transaction:
+class RawTransactionsTest(StratisTestFramework):
 
     def __init__(self):
         super().__init__()
@@ -78,7 +71,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         rawtxfund = self.nodes[2].fundrawtransaction(rawtx)
         fee = rawtxfund['fee']
         dec_tx  = self.nodes[2].decoderawtransaction(rawtxfund['hex'])
-        assert(len(dec_tx['vin']) > 0) #test that we have enough inputs
+        assert(len(dec_tx['vin']) > 0) #test if we have enought inputs
 
         ##############################
         # simple test with two coins #
@@ -130,7 +123,14 @@ class RawTransactionsTest(BitcoinTestFramework):
         #########################################################################
         # test a fundrawtransaction with a VIN greater than the required amount #
         #########################################################################
-        utx = get_unspent(self.nodes[2].listunspent(), 5)
+        utx = False
+        listunspent = self.nodes[2].listunspent()
+        for aUtx in listunspent:
+            if aUtx['amount'] == 5.0:
+                utx = aUtx
+                break
+
+        assert(utx!=False)
 
         inputs  = [ {'txid' : utx['txid'], 'vout' : utx['vout']}]
         outputs = { self.nodes[0].getnewaddress() : 1.0 }
@@ -151,7 +151,14 @@ class RawTransactionsTest(BitcoinTestFramework):
         #####################################################################
         # test a fundrawtransaction with which will not get a change output #
         #####################################################################
-        utx = get_unspent(self.nodes[2].listunspent(), 5)
+        utx = False
+        listunspent = self.nodes[2].listunspent()
+        for aUtx in listunspent:
+            if aUtx['amount'] == 5.0:
+                utx = aUtx
+                break
+
+        assert(utx!=False)
 
         inputs  = [ {'txid' : utx['txid'], 'vout' : utx['vout']}]
         outputs = { self.nodes[0].getnewaddress() : Decimal(5.0) - fee - feeTolerance }
@@ -173,7 +180,14 @@ class RawTransactionsTest(BitcoinTestFramework):
         ####################################################
         # test a fundrawtransaction with an invalid option #
         ####################################################
-        utx = get_unspent(self.nodes[2].listunspent(), 5)
+        utx = False
+        listunspent = self.nodes[2].listunspent()
+        for aUtx in listunspent:
+            if aUtx['amount'] == 5.0:
+                utx = aUtx
+                break
+
+        assert_equal(utx!=False, True)
 
         inputs  = [ {'txid' : utx['txid'], 'vout' : utx['vout']} ]
         outputs = { self.nodes[0].getnewaddress() : Decimal(4.0) }
@@ -191,7 +205,14 @@ class RawTransactionsTest(BitcoinTestFramework):
         ############################################################
         # test a fundrawtransaction with an invalid change address #
         ############################################################
-        utx = get_unspent(self.nodes[2].listunspent(), 5)
+        utx = False
+        listunspent = self.nodes[2].listunspent()
+        for aUtx in listunspent:
+            if aUtx['amount'] == 5.0:
+                utx = aUtx
+                break
+
+        assert_equal(utx!=False, True)
 
         inputs  = [ {'txid' : utx['txid'], 'vout' : utx['vout']} ]
         outputs = { self.nodes[0].getnewaddress() : Decimal(4.0) }
@@ -201,15 +222,23 @@ class RawTransactionsTest(BitcoinTestFramework):
 
         try:
             self.nodes[2].fundrawtransaction(rawtx, {'changeAddress': 'foobar'})
-            raise AssertionError("Accepted invalid bitcoin address")
+            raise AssertionError("Accepted invalid stratis address")
         except JSONRPCException as e:
-            assert("changeAddress must be a valid bitcoin address" in e.error['message'])
+            assert("changeAddress must be a valid stratis address" in e.error['message'])
+
 
 
         ############################################################
         # test a fundrawtransaction with a provided change address #
         ############################################################
-        utx = get_unspent(self.nodes[2].listunspent(), 5)
+        utx = False
+        listunspent = self.nodes[2].listunspent()
+        for aUtx in listunspent:
+            if aUtx['amount'] == 5.0:
+                utx = aUtx
+                break
+
+        assert_equal(utx!=False, True)
 
         inputs  = [ {'txid' : utx['txid'], 'vout' : utx['vout']} ]
         outputs = { self.nodes[0].getnewaddress() : Decimal(4.0) }
@@ -218,22 +247,24 @@ class RawTransactionsTest(BitcoinTestFramework):
         assert_equal(utx['txid'], dec_tx['vin'][0]['txid'])
 
         change = self.nodes[2].getnewaddress()
-        try:
-            rawtxfund = self.nodes[2].fundrawtransaction(rawtx, {'changeAddress': change, 'changePosition': 2})
-        except JSONRPCException as e:
-            assert('changePosition out of bounds' == e.error['message'])
-        else:
-            assert(False)
         rawtxfund = self.nodes[2].fundrawtransaction(rawtx, {'changeAddress': change, 'changePosition': 0})
         dec_tx  = self.nodes[2].decoderawtransaction(rawtxfund['hex'])
         out = dec_tx['vout'][0];
         assert_equal(change, out['scriptPubKey']['addresses'][0])
 
 
+
         #########################################################################
         # test a fundrawtransaction with a VIN smaller than the required amount #
         #########################################################################
-        utx = get_unspent(self.nodes[2].listunspent(), 1)
+        utx = False
+        listunspent = self.nodes[2].listunspent()
+        for aUtx in listunspent:
+            if aUtx['amount'] == 1.0:
+                utx = aUtx
+                break
+
+        assert(utx!=False)
 
         inputs  = [ {'txid' : utx['txid'], 'vout' : utx['vout']}]
         outputs = { self.nodes[0].getnewaddress() : 1.0 }
@@ -268,8 +299,17 @@ class RawTransactionsTest(BitcoinTestFramework):
         ###########################################
         # test a fundrawtransaction with two VINs #
         ###########################################
-        utx = get_unspent(self.nodes[2].listunspent(), 1)
-        utx2 = get_unspent(self.nodes[2].listunspent(), 5)
+        utx  = False
+        utx2 = False
+        listunspent = self.nodes[2].listunspent()
+        for aUtx in listunspent:
+            if aUtx['amount'] == 1.0:
+                utx = aUtx
+            if aUtx['amount'] == 5.0:
+                utx2 = aUtx
+
+
+        assert(utx!=False)
 
         inputs  = [ {'txid' : utx['txid'], 'vout' : utx['vout']},{'txid' : utx2['txid'], 'vout' : utx2['vout']} ]
         outputs = { self.nodes[0].getnewaddress() : 6.0 }
@@ -301,8 +341,17 @@ class RawTransactionsTest(BitcoinTestFramework):
         #########################################################
         # test a fundrawtransaction with two VINs and two vOUTs #
         #########################################################
-        utx = get_unspent(self.nodes[2].listunspent(), 1)
-        utx2 = get_unspent(self.nodes[2].listunspent(), 5)
+        utx  = False
+        utx2 = False
+        listunspent = self.nodes[2].listunspent()
+        for aUtx in listunspent:
+            if aUtx['amount'] == 1.0:
+                utx = aUtx
+            if aUtx['amount'] == 5.0:
+                utx2 = aUtx
+
+
+        assert(utx!=False)
 
         inputs  = [ {'txid' : utx['txid'], 'vout' : utx['vout']},{'txid' : utx2['txid'], 'vout' : utx2['vout']} ]
         outputs = { self.nodes[0].getnewaddress() : 6.0, self.nodes[0].getnewaddress() : 1.0 }
@@ -444,7 +493,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         mSigObj = self.nodes[2].addmultisigaddress(2, [addr1Obj['pubkey'], addr2Obj['pubkey']])
 
 
-        # send 1.2 BTC to msig addr
+        # send 1.2 STRA to msig addr
         txId = self.nodes[0].sendtoaddress(mSigObj, 1.2)
         self.sync_all()
         self.nodes[1].generate(1)
@@ -470,7 +519,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         self.nodes[1].encryptwallet("test")
         self.nodes.pop(1)
         stop_nodes(self.nodes)
-        wait_bitcoinds()
+        wait_stratisds()
 
         self.nodes = start_nodes(self.num_nodes, self.options.tmpdir)
         # This test is not meant to test fee estimation and we'd like

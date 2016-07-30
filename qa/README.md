@@ -1,7 +1,7 @@
 The [pull-tester](/qa/pull-tester/) folder contains a script to call
 multiple tests from the [rpc-tests](/qa/rpc-tests/) folder.
 
-Every pull request to the bitcoin repository is built and run through
+Every pull request to the stratis repository is built and run through
 the regression test suite. You can also run all or only individual
 tests locally.
 
@@ -14,12 +14,6 @@ Unix
 The python3-zmq library is required. On Ubuntu or Debian it can be installed via:
 ```
 sudo apt-get install python3-zmq
-```
-
-OS X
-------
-```
-pip3 install pyzmq
 ```
 
 Running tests
@@ -42,7 +36,7 @@ Run all possible tests with
     qa/pull-tester/rpc-tests.py -extended
 
 By default, tests will be run in parallel if you want to specify how many
-tests should be run in parallel, append `-parallel=n` (default n=4).
+tests should be run in parallel, append `-paralell=n` (default n=4).
 
 If you want to create a basic coverage report for the rpc test suite, append `--coverage`.
 
@@ -50,9 +44,9 @@ Possible options, which apply to each individual test run:
 
 ```
   -h, --help            show this help message and exit
-  --nocleanup           Leave bitcoinds and test.* datadir on exit or error
-  --noshutdown          Don't stop bitcoinds after the test execution
-  --srcdir=SRCDIR       Source directory containing bitcoind/bitcoin-cli
+  --nocleanup           Leave stratisds and test.* datadir on exit or error
+  --noshutdown          Don't stop stratisds after the test execution
+  --srcdir=SRCDIR       Source directory containing stratisd/stratis-cli
                         (default: ../../src)
   --tmpdir=TMPDIR       Root directory for datadirs
   --tracerpc            Print out all RPC calls as they are made
@@ -66,7 +60,7 @@ output (example: `PYTHON_DEBUG=1 qa/pull-tester/rpc-tests.py wallet`).
 A 200-block -regtest blockchain and wallets for four nodes
 is created the first time a regression test is run and
 is stored in the cache/ directory. Each node has 25 mature
-blocks (25*50=1250 BTC) in its wallet.
+blocks (25*50=1250 STRA) in its wallet.
 
 After the first run, the cache/ blockchain and wallets are
 copied into a temporary directory and used as the initial
@@ -77,7 +71,7 @@ to recover with:
 
 ```bash
 rm -rf cache
-killall bitcoind
+killall stratisd
 ```
 
 Writing tests

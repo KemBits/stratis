@@ -1,9 +1,9 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2015 The Bitcoin developers
+// Copyright (c) 2009-2015 The Stratis developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_POLICYESTIMATOR_H
-#define BITCOIN_POLICYESTIMATOR_H
+#ifndef STRATIS_POLICYESTIMATOR_H
+#define STRATIS_POLICYESTIMATOR_H
 
 #include "amount.h"
 #include "uint256.h"
@@ -299,4 +299,4 @@ public:
 private:
     std::set<double> feeset;
 };
-#endif /*BITCOIN_POLICYESTIMATOR_H */
+#endif /*STRATIS_POLICYESTIMATOR_H */

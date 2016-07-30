@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+#  stratisd The stratis core server.
+#
+#
+# chkconfig: 345 80 20
+# description: stratisd
+# processname: stratisd
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/stratisd, see below
+if [ -f /etc/sysconfig/stratisd ]; then
+        . /etc/sysconfig/stratisd
+fi
+
+RETVAL=0
+
+prog=stratisd
+# you can override the lockfile via STRATISD_LOCKFILE in /etc/sysconfig/stratisd
+lockfile=${STRATISD_LOCKFILE-/var/lock/subsys/stratisd}
+
+# stratisd defaults to /usr/bin/stratisd, override with STRATISD_BIN
+stratisd=${STRATISD_BIN-/usr/bin/stratisd}
+
+# stratisd opts default to -disablewallet, override with STRATISD_OPTS
+stratisd_opts=${STRATISD_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $stratisd $stratisd_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

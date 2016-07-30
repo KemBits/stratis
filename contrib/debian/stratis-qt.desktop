@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Stratis
+Comment=Stratis P2P Cryptocurrency
+Comment[fr]=Stratis, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Stratis, eşten eşe kriptografik sanal para birimi
+Exec=stratis-qt %u
+Terminal=false
+Type=Application
+Icon=stratis128
+MimeType=x-scheme-handler/stratis;
+Categories=Office;Finance;

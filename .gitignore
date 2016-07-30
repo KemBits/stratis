@@ -1,12 +1,12 @@
 *.tar.gz
 
 *.exe
-src/bitcoin
-src/bitcoind
-src/bitcoin-cli
-src/bitcoin-tx
-src/test/test_bitcoin
-src/qt/test/test_bitcoin-qt
+src/litecoin
+src/litecoind
+src/litecoin-cli
+src/litecoin-tx
+src/test/test_litecoin
+src/qt/test/test_litecoin-qt
 
 # autoreconf
 Makefile.in
@@ -74,16 +74,19 @@ src/qt/test/moc*.cpp
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-bitcoin-qt
-Bitcoin-Qt.app
+litecoin-qt
+Litecoin-Qt.app
 
 # Unit-tests
 Makefile.test
-bitcoin-qt_test
+litecoin-qt_test
 src/test/buildenv.py
 
 # Resources cpp
 qrc_*.cpp
+
+# Qt creator
+*.pro.user
 
 # Mac specific
 .DS_Store
@@ -91,7 +94,6 @@ build
 
 #lcov
 *.gcno
-*.gcda
 /*.info
 test_bitcoin.coverage/
 total.coverage/
@@ -102,16 +104,10 @@ linux-coverage-build
 linux-build
 win32-build
 qa/pull-tester/run-bitcoind-for-test.sh
-qa/pull-tester/tests_config.py
+qa/pull-tester/tests-config.sh
 qa/pull-tester/cache/*
 qa/pull-tester/test.*/*
-qa/tmp
-cache/
-share/BitcoindComparisonTool.jar
 
 !src/leveldb*/Makefile
 
 /doc/doxygen/
-
-libbitcoinconsensus.pc
-contrib/devtools/split-debug.sh

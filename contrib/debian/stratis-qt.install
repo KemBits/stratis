@@ -1,0 +1,6 @@
+usr/local/bin/stratis-qt usr/bin
+share/pixmaps/stratis32.xpm usr/share/pixmaps
+share/pixmaps/stratis16.xpm usr/share/pixmaps
+share/pixmaps/stratis128.png usr/share/pixmaps
+debian/stratis-qt.desktop usr/share/applications
+debian/stratis-qt.protocol usr/share/kde4/services/

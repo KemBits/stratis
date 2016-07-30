@@ -1,10 +1,10 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2015 The Bitcoin Core developers
+// Copyright (c) 2009-2015 The Stratis Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_WALLET_WALLET_H
-#define BITCOIN_WALLET_WALLET_H
+#ifndef STRATIS_WALLET_WALLET_H
+#define STRATIS_WALLET_WALLET_H
 
 #include "amount.h"
 #include "streams.h"
@@ -78,8 +78,7 @@ enum WalletFeature
     FEATURE_WALLETCRYPT = 40000, // wallet encryption
     FEATURE_COMPRPUBKEY = 60000, // compressed public keys
 
-    FEATURE_HD = 130000, // Hierarchical key derivation after BIP32 (HD Wallet)
-    FEATURE_LATEST = FEATURE_COMPRPUBKEY // HD is optional, use FEATURE_COMPRPUBKEY as latest version
+    FEATURE_LATEST = 60000
 };
 
 
@@ -578,7 +577,7 @@ private:
 
     void SyncMetaData(std::pair<TxSpends::iterator, TxSpends::iterator>);
 
-    /* the HD chain data model (external chain counters) */
+    /* the hd chain data model (external chain counters) */
     CHDChain hdChain;
 
 public:
@@ -897,15 +896,11 @@ public:
 
     bool BackupWallet(const std::string& strDest);
 
-    /* Set the HD chain model (chain child index counters) */
+    /* Set the hd chain model (chain child index counters) */
     bool SetHDChain(const CHDChain& chain, bool memonly);
-    const CHDChain& GetHDChain() { return hdChain; }
 
-    /* Generates a new HD master key (will not be activated) */
-    CPubKey GenerateNewHDMasterKey();
-    
-    /* Set the current HD master key (will reset the chain child index counters) */
-    bool SetHDMasterKey(const CPubKey& key);
+    /* Set the current hd master key (will reset the chain child index counters) */
+    bool SetHDMasterKey(const CKey& key);
 };
 
 /** A key allocated from the key pool. */
@@ -963,4 +958,4 @@ public:
     }
 };
 
-#endif // BITCOIN_WALLET_WALLET_H
+#endif // STRATIS_WALLET_WALLET_H

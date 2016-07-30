@@ -1,0 +1,33 @@
+# /etc/conf.d/stratisd: config file for /etc/init.d/stratisd
+
+# Config file location
+#STRATISD_CONFIGFILE="/etc/stratis/stratis.conf"
+
+# What directory to write pidfile to?  (created and owned by $STRATISD_USER)
+#STRATISD_PIDDIR="/var/run/stratisd"
+
+# What filename to give the pidfile
+#STRATISD_PIDFILE="${STRATISD_PIDDIR}/stratisd.pid"
+
+# Where to write stratisd data (be mindful that the blockchain is large)
+#STRATISD_DATADIR="/var/lib/stratisd"
+
+# User and group to own stratisd process
+#STRATISD_USER="stratis"
+#STRATISD_GROUP="stratis"
+
+# Path to stratisd executable
+#STRATISD_BIN="/usr/bin/stratisd"
+
+# Nice value to run stratisd under
+#STRATISD_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+STRATISD_OPTS="-disablewallet"
+
+# The timeout in seconds OpenRC will wait for stratisd to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+STRATISD_SIGTERM_TIMEOUT=60

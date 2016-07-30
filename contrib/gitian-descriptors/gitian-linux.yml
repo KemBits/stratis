@@ -1,5 +1,5 @@
 ---
-name: "bitcoin-linux-0.13"
+name: "stratis-linux-0.13"
 enable_cache: true
 suites:
 - "trusty"
@@ -28,10 +28,16 @@ packages:
 - "ca-certificates"
 - "python"
 remotes:
-- "url": "https://github.com/bitcoin/bitcoin.git"
-  "dir": "bitcoin"
+- "url": "https://github.com/stratis/stratis.git"
+  "dir": "stratis"
 files: []
 script: |
+
+  #unlock sudo
+  echo "ubuntu" | sudo -S true
+
+  sudo mkdir -p /usr/include/i386-linux-gnu/
+  sudo ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/i386-linux-gnu/asm
 
   WRAP_DIR=$HOME/wrapped
   HOSTS="i686-pc-linux-gnu x86_64-linux-gnu arm-linux-gnueabihf aarch64-linux-gnu"
@@ -84,45 +90,11 @@ script: |
   create_per-host_faketime_wrappers "2000-01-01 12:00:00"
   export PATH=${WRAP_DIR}:${PATH}
 
-  EXTRA_INCLUDES_BASE=$WRAP_DIR/extra_includes
-  mkdir -p $EXTRA_INCLUDES_BASE
-
-  # x86 needs /usr/include/i386-linux-gnu/asm pointed to /usr/include/x86_64-linux-gnu/asm,
-  # but we can't write there. Instead, create a link here and force it to be included in the
-  # search paths by wrapping gcc/g++.
-
-  mkdir -p $EXTRA_INCLUDES_BASE/i686-pc-linux-gnu
-  rm -f $WRAP_DIR/extra_includes/i686-pc-linux-gnu/asm
-  ln -s /usr/include/x86_64-linux-gnu/asm $EXTRA_INCLUDES_BASE/i686-pc-linux-gnu/asm
-
-  for prog in gcc g++; do
-  rm -f ${WRAP_DIR}/${prog}
-  cat << EOF > ${WRAP_DIR}/${prog}
-  #!/bin/bash
-  REAL="`which -a ${prog} | grep -v ${WRAP_DIR}/${prog} | head -1`"
-  for var in "\$@"
-  do
-    if [ "\$var" = "-m32" ]; then
-      export C_INCLUDE_PATH="$EXTRA_INCLUDES_BASE/i686-pc-linux-gnu"
-      export CPLUS_INCLUDE_PATH="$EXTRA_INCLUDES_BASE/i686-pc-linux-gnu"
-      break
-    fi
-  done
-  \$REAL \$@
-  EOF
-  chmod +x ${WRAP_DIR}/${prog}
-  done
-
-  cd bitcoin
+  cd stratis
   BASEPREFIX=`pwd`/depends
   # Build dependencies for each host
   for i in $HOSTS; do
-    EXTRA_INCLUDES="$EXTRA_INCLUDES_BASE/$i"
-    if [ -d "$EXTRA_INCLUDES" ]; then
-      export HOST_ID_SALT="$EXTRA_INCLUDES"
-    fi
     make ${MAKEOPTS} -C ${BASEPREFIX} HOST="${i}"
-    unset HOST_ID_SALT
   done
 
   # Faketime for binaries
@@ -135,13 +107,13 @@ script: |
   ./autogen.sh
   CONFIG_SITE=${BASEPREFIX}/`echo "${HOSTS}" | awk '{print $1;}'`/share/config.site ./configure --prefix=/
   make dist
-  SOURCEDIST=`echo bitcoin-*.tar.gz`
+  SOURCEDIST=`echo stratis-*.tar.gz`
   DISTNAME=`echo ${SOURCEDIST} | sed 's/.tar.*//'`
   # Correct tar file order
   mkdir -p temp
   pushd temp
   tar xf ../$SOURCEDIST
-  find bitcoin-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
+  find stratis-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
   popd
 
   ORIGPATH="$PATH"

@@ -1,0 +1,81 @@
+policy_module(stratis, 1.100.1)
+
+########################################
+#
+# Declarations
+#
+
+type stratis_t;
+type stratis_exec_t;
+init_daemon_domain(stratis_t, stratis_exec_t)
+
+permissive stratis_t;
+
+type stratis_initrc_exec_t;
+init_script_file(stratis_initrc_exec_t)
+
+type stratis_conf_t;
+files_type(stratis_conf_t)
+
+type stratis_var_lib_t;
+files_type(stratis_var_lib_t)
+
+type stratis_var_run_t;
+files_type(stratis_var_run_t)
+
+type stratis_port_t;
+corenet_port(stratis_port_t)
+
+########################################
+#
+# stratis local policy
+#
+allow stratis_t self:process { fork };
+
+allow stratis_t self:fifo_file rw_fifo_file_perms;
+allow stratis_t self:unix_stream_socket create_stream_socket_perms;
+
+manage_dirs_pattern(stratis_t, stratis_conf_t, stratis_conf_t)
+manage_files_pattern(stratis_t, stratis_conf_t, stratis_conf_t)
+
+manage_dirs_pattern(stratis_t, stratis_var_lib_t, stratis_var_lib_t)
+manage_files_pattern(stratis_t, stratis_var_lib_t, stratis_var_lib_t)
+files_var_lib_filetrans(stratis_t, stratis_var_lib_t, { dir file })
+
+manage_dirs_pattern(stratis_t, stratis_var_run_t, stratis_var_run_t)
+manage_files_pattern(stratis_t, stratis_var_run_t, stratis_var_run_t)
+
+sysnet_dns_name_resolve(stratis_t)
+corenet_all_recvfrom_unlabeled(stratis_t)
+
+allow stratis_t self:tcp_socket create_stream_socket_perms;
+corenet_tcp_sendrecv_generic_if(stratis_t)
+corenet_tcp_sendrecv_generic_node(stratis_t)
+corenet_tcp_sendrecv_all_ports(stratis_t)
+corenet_tcp_bind_generic_node(stratis_t)
+
+gen_require(`
+    type stratis_port_t;
+')
+allow stratis_t stratis_port_t:tcp_socket name_bind;
+
+gen_require(`
+    type stratis_port_t;
+')
+allow stratis_t stratis_port_t:tcp_socket name_connect;
+
+domain_use_interactive_fds(stratis_t)
+
+files_read_etc_files(stratis_t)
+
+miscfiles_read_localization(stratis_t)
+
+sysnet_dns_name_resolve(stratis_t)
+
+allow stratis_t stratis_exec_t:file execute_no_trans;
+allow stratis_t self:process setsched;
+corecmd_exec_ls(stratis_t)
+corenet_tcp_connect_http_port(stratis_t)
+dev_read_urand(stratis_t)
+fs_getattr_xattr_fs(stratis_t)
+kernel_read_system_state(stratis_t)

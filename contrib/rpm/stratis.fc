@@ -1,0 +1,8 @@
+/usr/bin/stratis-cli		--	gen_context(system_u:object_r:stratis_exec_t,s0)
+/usr/sbin/stratisd		--	gen_context(system_u:object_r:stratis_exec_t,s0)
+/usr/lib(64)?/stratis/stratisd		--	gen_context(system_u:object_r:stratis_exec_t,s0)
+
+/etc/stratis(/.*)?		gen_context(system_u:object_r:stratis_conf_t,s0)
+/var/lib/stratis(/.*)?		gen_context(system_u:object_r:stratis_var_lib_t,s0)
+
+(/var)?/run/stratisd(/.*)?   gen_context(system_u:object_r:stratis_var_run_t,s0)

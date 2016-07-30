@@ -1,11 +1,11 @@
 Sample configuration files for:
 
-SystemD: bitcoind.service
-Upstart: bitcoind.conf
-OpenRC:  bitcoind.openrc
-         bitcoind.openrcconf
-CentOS:  bitcoind.init
-OS X:    org.bitcoin.bitcoind.plist
+SystemD: stratisd.service
+Upstart: stratisd.conf
+OpenRC:  stratisd.openrc
+         stratisd.openrcconf
+CentOS:  stratisd.init
+OS X:    org.stratis.stratisd.plist
 
 have been made available to assist packagers in creating node packages here.
 

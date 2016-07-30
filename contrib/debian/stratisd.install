@@ -1,0 +1,2 @@
+usr/local/bin/stratisd usr/bin
+usr/local/bin/stratis-cli usr/bin

@@ -1,9 +1,9 @@
-// Copyright (c) 2012-2014 The Bitcoin Core developers
+// Copyright (c) 2012-2014 The Stratis Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_VERSION_H
-#define BITCOIN_VERSION_H
+#ifndef STRATIS_VERSION_H
+#define STRATIS_VERSION_H
 
 /**
  * network protocol versioning
@@ -42,4 +42,4 @@ static const int FEEFILTER_VERSION = 70013;
 //! shord-id-based block download starts with this version
 static const int SHORT_IDS_BLOCKS_VERSION = 70014;
 
-#endif // BITCOIN_VERSION_H
+#endif // STRATIS_VERSION_H
