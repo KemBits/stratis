@@ -109,7 +109,7 @@ public:
         assert(consensus.hashGenesisBlock == 	uint256S("0x00000bf07ec26ca0a60128b42b4479ca98324f144df1f7de71bd55a7252b9ce7"));
         assert(genesis.hashMerkleRoot == 		uint256S("0xa1f75f3ea3586946877f7ab84e3a24d6ab2c95746aa47c498f7a7d13d5ffd012"));
 
-//        vSeeds.push_back(CDNSSeedData("stratis.sipa.be", "seed.stratis.sipa.be")); // Pieter Wuille
+        vSeeds.push_back(CDNSSeedData("seed.cloudstratis.com", "seed.stratisplatform.com"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,125);
