@@ -97,10 +97,10 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        pchMessageStart[0] = 0xb4;
-        pchMessageStart[1] = 0xab;
-        pchMessageStart[2] = 0xc2;
-        pchMessageStart[3] = 0xd2;
+        pchMessageStart[0] = 0xf8;
+        pchMessageStart[1] = 0x71;
+        pchMessageStart[2] = 0xf3;
+        pchMessageStart[3] = 0xad;
         nDefaultPort = 6175;
         nPruneAfterHeight = 100000;
 
@@ -166,10 +166,10 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nStartTime = 1456790400; // March 1st, 2016
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 1493596800; // May 1st, 2017
 
-        pchMessageStart[0] = 0x0b;
-        pchMessageStart[1] = 0x11;
-        pchMessageStart[2] = 0x09;
-        pchMessageStart[3] = 0x07;
+        pchMessageStart[0] = 0x3b;
+        pchMessageStart[1] = 0x94;
+        pchMessageStart[2] = 0x71;
+        pchMessageStart[3] = 0x3b;
         nDefaultPort = 16175;
         nPruneAfterHeight = 1000;
 
